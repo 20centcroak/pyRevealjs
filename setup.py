@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyRevealjs", 
-    version="0.1",
+    version="0.3",
     author="20centCroak",
     author_email="",
     description="revealjs based presentation",
@@ -19,6 +19,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    install_requires=[
-      ],
+    include_package_data = True
 )
