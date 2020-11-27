@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.1",
     author="20centCroak",
     author_email="",
-    description="Standard app configuration and packaging",
+    description="revealjs based presentation",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/20centcroak/pyRevealjs",
