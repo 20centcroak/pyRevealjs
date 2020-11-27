@@ -1,6 +1,6 @@
-# Presentation module
+# PyRevealjs module
 
-**Note** Before using this module, have a look to the easyPresentation module. It may be easier to use despite it requires more libraries (including this module).
+**Note** Before using this module, have a look to the [pyWorkflowRevealjs](https://github.com/20centcroak/pyWorkflowRevealjs) module. It may be easier to use despite it requires more libraries (including this module).
 
 ## Description
 
