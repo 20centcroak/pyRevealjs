@@ -4,16 +4,16 @@
 
 ## Description
 
-The presentation module allows the easy creation of revealjs presentations from text, markdown or image files defining the slides.  
+The PyRevealjs module allows the easy creation of revealjs presentations from text, markdown or image files defining the slides.  
 It is also possible to define slides direcly in code.
 
 The goal is to be able to generate presentations with volatile content. 
-Suppose you need to document a software thnaks to screenshots and additional texts, you will need to update this presentation many time, but most often just in changing a screenshot.
+Suppose you need to document a software thanks to screenshots and additional texts, you will need to update this presentation many times, but most often just in changing a screenshot.
 
 The module not only recreates fastly a new presentation when the content changes but it can also manages different versions. 
 Then you could have different versions of presentations if you need to document different versions of software.
 
-The module also manages slide parts, then a slide may be decomposed in vertical parts and revealjs allows the vertical (slide parts) and horizontal (different slides) browse in the presentation.
+The module also manages slide parts, then a slide may be decomposed in vertical parts and revealjs allows the vertical (slide parts) and horizontal (different slides) browsing in the presentation.
 
 Finally the module manages links in presentation, then it is possible to jump from one slide to another thanks to these links. This option is easier managed with the easyPresentation module.
 
