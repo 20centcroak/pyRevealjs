@@ -8,7 +8,7 @@ class testPresentation(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.temp_dir = tempfile.TemporaryDirectory()
-        print('temp dir: %s', cls.temp_dir.name)
+        print('temp dir: ', cls.temp_dir.name)
 
     @classmethod
     def tearDownClass(cls):
@@ -64,5 +64,5 @@ class testPresentation(unittest.TestCase):
         presentation = Presentation()
         for version in versions:
             presentation.createPresentation('presentation_v{}.html'.format(
-                version), slides, version=version, outputFolder=self.temp_dir.name)
+                version), slides, version=version, outputFolder='temp')
 

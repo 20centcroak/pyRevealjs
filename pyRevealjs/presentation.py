@@ -69,7 +69,7 @@ class Presentation:
 
     def _copyLibs(self, outputFolder):
         logging.info('copying libs...')
-        libs = self.resource_path(os.path.join('assets', 'reveal.js-3.9.2'))
+        libs = self.resource_path(os.path.join('assets', 'revealjsdist4.1.0'))
         dirutil.copy_tree(libs, os.path.join(outputFolder, 'libs'))
 
     def _copyImages(self, slides: Slides, outputFolder: str):
