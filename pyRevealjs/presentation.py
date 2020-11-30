@@ -122,8 +122,11 @@ class Presentation:
             content += slideContent
 
             if index == len(slideContents) - 1 and links:
-                for link in links:
-                    content += link+'\n'
+                sep = '-'
+                link_line = sep.join(links)+'\n'
+                content += link_line
+#                 for link in links:
+#                     content += link+'\n'
                     # content+='\n<div><a href="'+link['href']+'">'+link['text']+'</a></div>\n'
 
             content += closeContentSection
