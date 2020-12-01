@@ -107,12 +107,20 @@ class Slides:
         """returns the highest version value fourn for at least 1 slide in the collection"""
         return self.versions[-1]
 
+    def showLinks(self, slideId, version):
+        slides = self.getSlide(slideId, version)
+        show = True
+        for part in slides:
+            show = show and slides[part].showLinks
+        return show
+
     def getSlide(self, slideId, version=0):
         """returns a dictionary with key = part number and value = Slide object corresponding to the slide id and its version. 
         If no version is provided, version 0.0 is returned."""
         version = float(version)
         slideId = int(slideId)
 
+        
         if slideId not in self.slides:
             logging.warning('slide {} not found'.format(slideId))
             return None
@@ -162,20 +170,21 @@ class Slides:
         parts.sort()
 
         for part in parts:
-            slidePart = self._getSlidePart(slideId, part, version)
-            if slide is None:
+            slidePart:Slide = self._getSlidePart(slideId, part, version)
+            if slidePart is None:
                 contents.append(
                     'slide {} part {} is missing.'.format(slideId, part))
             contents.append(slidePart.getContent(self.displayTitles))
+        
         return contents
 
     def getMarkdownLinks(self, links, version=0):
         """returns markdown links correponding to the given link ids. It transforms theses ids as html links in a Presentation."""
         if links is None:
             return None
-        mdLinks = ["  \n"]
+        mdLinks = []
         for slideId in links:
-            href = '#/'+str(links[slideId])
+            href = '#/id'+str(slideId)
             text = self.getSlideTitle(slideId, version)
             mdLinks.append('['+text+']('+href+')')
         return mdLinks

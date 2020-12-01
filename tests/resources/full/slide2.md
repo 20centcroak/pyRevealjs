@@ -1,8 +1,9 @@
 ---
 title:Slide2
-id:1
+id:2
 version:0
 part:0
+showlinks: false
 ---
-# Slide 2
-Ceci est la version 0 du slide 2.  
+# Slide 2  
+version 0 - part 0

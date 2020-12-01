@@ -90,4 +90,9 @@ for version in versions:
     presentation.createPresentation('presentation_v{}.html'.format(
         version), slides, version=version, outputFolder=self.temp_dir.name)
 
+
+## TODO
+
+- display or not links when n >= 1 (now if n=1, links are not displayed, we suppose that left arraow do the job)
+- add customisation allowed by revealjs for the whole presentation (separated settings file) or for individual slide in the header or in the content (span)
 ```

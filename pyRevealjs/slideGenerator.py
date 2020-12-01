@@ -61,6 +61,7 @@ class SlideGenerator:
         - id: a unique integer. 2 slides can't have the same id, except if it is split.
         - part: [optional] float number. A Slide may be split in multiple parts. In this case, they have the same id but a different part number. If not set, 0.0 is the default value.
         - version: [optional] float number. A slide may have different versions, then a history may be managed (version 0 is older than version 1). If not set, 0.0 is the default value
+        - displayLinks: [optional] indicate if links should be displayed for this slide  
         """
         with open(file) as f:
             data = f.read()
@@ -87,7 +88,7 @@ class SlideGenerator:
             return None
 
         slide = Slide(details['id'], details['title'],
-                      details['part'], details['version'], isImage=isImage)
+                      details['part'], details['version'], details['showlinks'],isImage=isImage)
         slide.associateFile(file)
         return slide
 
@@ -110,16 +111,9 @@ class SlideGenerator:
             if key not in details:
                 return False
 
-        if 'part' not in details:
-            details['part'] = 0.0
-        if 'version' not in details:
-            details['version'] = 0.0
-
-        try:
             details['id'] = int(details['id'])
-            details['part'] = float(details['part'])
-            details['version'] = float(details['version'])
-        except ValueError:
-            return False
+            details['part'] = float(details['part']) if 'part' in details else 0.0
+            details['version'] = float(details['version']) if 'version' in details else 0.0
+            details['showlinks'] = str(details['showlinks']).lower() in ['true', '1', 'y', 'yes', 'ok'] if 'showlinks' in details else True
 
         return True

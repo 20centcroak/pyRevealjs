@@ -53,10 +53,7 @@ class Presentation:
         with open(file, mode='w') as output:
             self._copyInOutput(output, asset1)
             for slideId in slideIds:
-                htmlLinks = slides.getMarkdownLinks(
-                    links[slideId], version) if links else None
-                self._writeMarkdownSection(output,
-                                           slides.getSlideContents(slideId, version), htmlLinks)
+                self._writeMarkdownSection(output, slideId, slides, version, links)
             self._copyInOutput(output, asset2)
 
         return file
@@ -102,32 +99,57 @@ class Presentation:
         with open(content, mode='r') as file:
             output.write(file.read())
 
-    def _writeMarkdownSection(self, output, slideContents, links=None):
+    def _writeMarkdownSection(self, output, slideId, slides, version, slideLinks):
+
+        links = slides.getMarkdownLinks(
+            slideLinks[slideId], version) if slideLinks and slideId in slideLinks else None
+        slideContents = slides.getSlideContents(slideId, version)
+        showLinks = slides.showLinks(slideId, version)
 
         end = '\n</section>'
         closeContentSection = '\n</textarea>'
         if len(slideContents) == 1:
-            content = '<section data-markdown>\n<textarea data-template>'
-            openSection = ''
+            content = ''
+            openSection1 = '\n<section data-markdown id="'
+            openSection2 = '">\n<textarea data-template>'
             closeSection = ''
 
         else:
             content = '<section>\n'
-            openSection = '\n<section data-markdown>\n<textarea data-template>'
+            openSection1 = '\n<section data-markdown id="'
+            openSection2 = '">\n<textarea data-template>'
             closeSection = '</section>\n'
             end = '\n</section>'
 
         for index, slideContent in enumerate(slideContents):
-            content += openSection
+            content += openSection1
+            content += 'id'+str(slideId)
+            content += openSection2
             content += slideContent
 
-            if index == len(slideContents) - 1 and len(links) > 1:
-                sep = '-'
-                link_line = sep.join(links)+'\n'
-                content += link_line
+            if showLinks:
+                print('showLinks')
+                line = self._getLinkLine(links, index, slideContents)
+                print(line)
+                content += line
 
             content += closeContentSection
             content += closeSection
 
         content += end
         output.write(content)
+
+    def _getLinkLine(self, links, index, slideContents):
+
+        print('links', links)
+        print('index', index)
+        print('slideContents', len(slideContents))
+
+        if not links:
+            return ''
+
+        if index != len(slideContents) - 1:
+            return ''
+
+        sep = '-'
+        return "  \n"+sep.join(links)

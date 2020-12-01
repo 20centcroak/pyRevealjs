@@ -13,7 +13,7 @@ class Slide:
     - version: [optional] float number. A slide may have different versions, then a history may be managed (version 0 is older than version 1). If not set, 0.0 is the default value
     """
 
-    def __init__(self, id: int, title: str, part=0, version=0, isImage=False):
+    def __init__(self, id: int, title: str, part=0, version=0, showLinks=True, isImage=False):
         """builds the object"""
         self.filename = None
         self.content = None
@@ -22,6 +22,7 @@ class Slide:
         self.title = title
         self.part = float(part)
         self.version = float(version)
+        self.showLinks = showLinks
 
     def associateFile(self, filename: str):
         """
