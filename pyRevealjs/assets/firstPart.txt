@@ -1,19 +1,26 @@
 <!doctype html>
-<html>
+<html lang="en">
+
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<title>Presentation</title>
 
-		<link rel="stylesheet" href="libs/dist/reset.css">
-		<link rel="stylesheet" href="libs/dist/reveal.css">
-		<link rel="stylesheet" href="libs/dist/theme/black.css" id="theme">
+		<meta name="description" content="Beautiful presentations using HTML">
+		<meta name="author" content=" ">
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="libs/plugin/highlight/monokai.css" id="highlight-theme">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				
