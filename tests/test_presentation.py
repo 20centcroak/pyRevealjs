@@ -67,7 +67,8 @@ class testPresentation(unittest.TestCase):
 
         # Create Presentation based on Slides in the current working directory
         presentation = Presentation()
+        temp = self.temp_dir.name
         for version in versions:
             presentation.createPresentation('presentation_v{}.html'.format(
-                version), slides, links=links, version=version, outputFolder=self.temp_dir.name)
+                version), slides, links=links, version=version, outputFolder='temp')
 
