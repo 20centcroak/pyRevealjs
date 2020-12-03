@@ -88,7 +88,7 @@ class SlideGenerator:
             return None
 
         slide = Slide(details['id'], details['title'],
-                      details['part'], details['version'], details['showlinks'], isImage=isImage)
+                      details['part'], details['version'], details['showlinks'], isImage=isImage, display_title=details['displaytitle'])
         slide.associateFile(file)
         return slide
 
@@ -117,6 +117,8 @@ class SlideGenerator:
             details['version'] = float(
                 details['version']) if 'version' in details else 0.0
             details['showlinks'] = str(details['showlinks']).lower() in [
+                'true', '1', 'y', 'yes', 'ok'] if 'showlinks' in details else True
+            details['displaytitle'] = str(details['showlinks']).lower() in [
                 'true', '1', 'y', 'yes', 'ok'] if 'showlinks' in details else True
 
         return True

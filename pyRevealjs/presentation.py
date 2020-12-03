@@ -41,6 +41,7 @@ class Presentation:
             os.path.join('assets', 'template.html'))
         self.html: Dict[BeautifulSoup] = {}
         self.temp_dir = None
+        self.files = {}
 
     def addLinks(self, links):
         """
@@ -93,6 +94,7 @@ class Presentation:
         self.temp_dir = tempfile.TemporaryDirectory().name
         output = os.path.join(self.temp_dir, str(version))
         file = self._prepareOutput(output, version)
+        self.files[version] = file
 
         with open(file, "w") as output:
             output.write(self.html[version].prettify())
@@ -111,6 +113,7 @@ class Presentation:
         source_folder = os.path.join(self.temp_dir, str(version))
         # TODO best if we don't recopy existing files...
         dirutil.copy_tree(source_folder, output_folder)
+        return self.files[version]
 
     def _resource_path(self, relative_path):
         """ Get absolute path to resource, works for dev and for PyInstaller """
