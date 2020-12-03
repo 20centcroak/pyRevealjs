@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyRevealjs", 
-    version="2.0",
+    version="2.1",
     author="20centCroak",
     author_email="",
     description="revealjs based presentation",
@@ -19,5 +19,8 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    include_package_data = True
+    include_package_data = True,
+    install_requires=[
+        'BeautifulSoup'
+    ]
 )
