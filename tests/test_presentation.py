@@ -1,4 +1,4 @@
-from pyRevealjs import Slide, Slides, SlideGenerator, Presentation
+from pyRevealjs import Slide, SlideCatalog, SlideGenerator, Presentation, PresentationSettings
 import unittest
 import tempfile
 import logging
@@ -17,11 +17,13 @@ class testPresentation(unittest.TestCase):
 
     def test_simple(self):
         # get slides from images
-        slides = Slides()
-        slides.catalog('tests/resources/onlyimages', images=True)
+        catalog = SlideCatalog()
+        catalog.catalog('tests/resources/onlyimages', images=True)
         # Create Presentation based on Slides in the current working directory
-        Presentation().createPresentation('presentation.html',
-                                          slides, outputFolder=self.temp_dir.name)
+        settings = {'title': 'simple presentation', 'theme': 'white'}
+        pres = Presentation('simple presentation', catalog, PresentationSettings(settings))
+        pres.addSlideByIds(catalog.getAllIds())
+        pres.save('temp')
 
     def test_full(self):
         # Create a slide with id=1. Part and version numbers are let to defaut values (0.0)
@@ -37,38 +39,41 @@ class testPresentation(unittest.TestCase):
         # Create a slide with the same id than slide 2 because it is a second part (part number 1.1) of the same slide
         # Parts of a same slide will be displayed vertically in the presentation while different ids are displayed horizontally
         slide2part1 = Slide(2, 'slide2-1', part=1.1)
-        slide2part1.setContent('# Slide2  \nversion {} - part {}'.format(slide2part1.version, slide2part1.part))
+        slide2part1.setContent(
+            '# Slide2  \nversion {} - part {}'.format(slide2part1.version, slide2part1.part))
 
         # The content is not defined, it will be automatically generated using the title of the slide
         # content is not defined for this slide, it will automatically generated based on its title
         slide3version0_1 = Slide(3, 'slide3', version=0.1)
-        slide3version0_1.setContent('# Slide3  \nversion {} - part {}'.format(slide3version0_1.version, slide3version0_1.part))
+        slide3version0_1.setContent(
+            '# Slide3  \nversion {} - part {}'.format(slide3version0_1.version, slide3version0_1.part))
 
         slide3version1 = Slide(3, 'slide3', version=1)
-        slide3version1.setContent('# Slide3  \nversion {} - part {}'.format(slide3version1.version, slide3version1.part))
+        slide3version1.setContent(
+            '# Slide3  \nversion {} - part {}'.format(slide3version1.version, slide3version1.part))
 
         # Add slides to Slides
-        slides = Slides()
-        slides.addSlide(slide1)
-        slides.addSlide(slide2part0)
-        slides.addSlide(slide2part1)
-        slides.addSlide(slide3version0_1)
-        slides.addSlide(slide3version1)
+        catalog = SlideCatalog()
+        catalog.addSlide(slide1)
+        catalog.addSlide(slide2part0)
+        catalog.addSlide(slide2part1)
+        catalog.addSlide(slide3version0_1)
+        catalog.addSlide(slide3version1)
 
         # slide2.md asks to not display links
-        links = {1:[2,3], 2: [3]}
+        links = {1: [2, 3], 2: [3]}
 
         # if slides embed images from imageFolder in their markdown content, the following line is required:
         # slides.declareResources(imageFolder):
 
         # Define versions of presentation to create
         # slides does not need to all have the same version. The presentation will find the closest version of slide less than the requested version if not found
-        versions = [0, 0.1, 1]
+        versions = [0.0, 0.1, 1.0]
 
         # Create Presentation based on Slides in the current working directory
-        presentation = Presentation()
+        pres = Presentation('presentation', catalog)
+        pres.addSlideByIds(catalog.getAllIds())
+        pres.addLinks(links)
         temp = self.temp_dir.name
         for version in versions:
-            presentation.createPresentation('presentation_v{}.html'.format(
-                version), slides, links=links, version=version, outputFolder='temp')
-
+            pres.save('temp', version)

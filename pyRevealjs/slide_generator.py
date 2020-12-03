@@ -10,6 +10,35 @@ class SlideGenerator:
     It also checks that all necessary pieces of information are available to build this object.
     """
 
+    def fromHeader(self, file):
+        """
+        extract information from header section in a file and returns a dictionary with the following key/value pairs:
+        - title: arbitrary title
+        - id: a unique integer. 2 slides can't have the same id, except if it is split.
+        - part: [optional] float number. A Slide may be split in multiple parts. In this case, they have the same id but a different part number. If not set, 0.0 is the default value.
+        - version: [optional] float number. A slide may have different versions, then a history may be managed (version 0 is older than version 1). If not set, 0.0 is the default value
+        - displayLinks: [optional] indicate if links should be displayed for this slide  
+        """
+        with open(file) as f:
+            data = f.read()
+
+        contents = re.split('---+', data)
+
+        if len(contents) < 2:
+            return
+
+        details = dict()
+        header = contents[1]
+        headerLines = header.splitlines()
+        for line in headerLines:
+            splitLine = line.split(':', 1)
+            if len(splitLine) < 2:
+                continue
+            headerTag = splitLine[0].strip()
+            details[headerTag] = splitLine[1].strip()
+
+        return self._getSlide(details, file)
+
     def fromImage(self, file):
         """
         extract information from an image file name and returns a dictionary with the following key/value pairs:
@@ -54,41 +83,12 @@ class SlideGenerator:
 
         return details
 
-    def fromHeader(self, file):
-        """
-        extract information from header section in a file and returns a dictionary with the following key/value pairs:
-        - title: arbitrary title
-        - id: a unique integer. 2 slides can't have the same id, except if it is split.
-        - part: [optional] float number. A Slide may be split in multiple parts. In this case, they have the same id but a different part number. If not set, 0.0 is the default value.
-        - version: [optional] float number. A slide may have different versions, then a history may be managed (version 0 is older than version 1). If not set, 0.0 is the default value
-        - displayLinks: [optional] indicate if links should be displayed for this slide  
-        """
-        with open(file) as f:
-            data = f.read()
-
-        contents = re.split('---+', data)
-
-        if len(contents) < 2:
-            return
-
-        details = dict()
-        header = contents[1]
-        headerLines = header.splitlines()
-        for line in headerLines:
-            splitLine = line.split(':', 1)
-            if len(splitLine) < 2:
-                continue
-            headerTag = splitLine[0].strip()
-            details[headerTag] = splitLine[1].strip()
-
-        return self._getSlide(details, file)
-
     def _getSlide(self, details, file, isImage=False):
         if not self._formatAndCheck(details):
             return None
 
         slide = Slide(details['id'], details['title'],
-                      details['part'], details['version'], details['showlinks'],isImage=isImage)
+                      details['part'], details['version'], details['showlinks'], isImage=isImage)
         slide.associateFile(file)
         return slide
 
@@ -112,8 +112,11 @@ class SlideGenerator:
                 return False
 
             details['id'] = int(details['id'])
-            details['part'] = float(details['part']) if 'part' in details else 0.0
-            details['version'] = float(details['version']) if 'version' in details else 0.0
-            details['showlinks'] = str(details['showlinks']).lower() in ['true', '1', 'y', 'yes', 'ok'] if 'showlinks' in details else True
+            details['part'] = float(
+                details['part']) if 'part' in details else 0.0
+            details['version'] = float(
+                details['version']) if 'version' in details else 0.0
+            details['showlinks'] = str(details['showlinks']).lower() in [
+                'true', '1', 'y', 'yes', 'ok'] if 'showlinks' in details else True
 
         return True
