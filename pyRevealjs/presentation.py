@@ -37,8 +37,8 @@ class Presentation:
         self.slide_ids = []
         self.links = None
         self.slide_order = None
-        self.template = self._resource_path(
-            os.path.join('assets', 'template.html'))
+        self.resource_folder = pathlib.Path(__file__).parent / 'assets'
+        self.template =  self.resource_folder.joinpath('template.html')
         self.html: Dict[BeautifulSoup] = {}
         self.temp_dir = None
         self.files = {}
@@ -115,12 +115,6 @@ class Presentation:
         dirutil.copy_tree(source_folder, output_folder)
         return self.files[version]
 
-    def _resource_path(self, relative_path):
-        """ Get absolute path to resource, works for dev and for PyInstaller """
-        base_path = getattr(sys, '_MEIPASS', os.path.dirname(
-            os.path.abspath(__file__)))
-        return os.path.join(base_path, relative_path)
-
     def _prepareOutput(self, output_folder, version):
         pathlib.Path(output_folder).mkdir(parents=True, exist_ok=True)
         self._copyLibs(output_folder)
@@ -129,7 +123,7 @@ class Presentation:
 
     def _copyLibs(self, output_folder):
         logging.info('copying libs...')
-        libs = self._resource_path(os.path.join('assets', 'revealjsdist4.1.0'))
+        libs = self.resource_folder.joinpath('revealjsdist4.1.0')
         dirutil.copy_tree(libs, os.path.join(output_folder, 'libs'))
 
     def _copyImages(self, output_folder: str, version):

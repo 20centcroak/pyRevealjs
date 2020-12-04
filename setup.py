@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyRevealjs", 
-    version="2.3",
+    version="2.4",
     author="20centCroak",
     author_email="",
     description="revealjs based presentation",
