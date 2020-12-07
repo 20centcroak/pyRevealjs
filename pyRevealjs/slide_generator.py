@@ -116,9 +116,9 @@ class SlideGenerator:
                 details['part']) if 'part' in details else 0.0
             details['version'] = float(
                 details['version']) if 'version' in details else 0.0
-            details['showlinks'] = str(details['showlinks']).lower() in [
-                'true', '1', 'y', 'yes', 'ok'] if 'showlinks' in details else False
-            details['displaytitle'] = str(details['showlinks']).lower() in [
-                'true', '1', 'y', 'yes', 'ok'] if 'showlinks' in details else False
+            details['showlinks'] = not (str(details['showlinks']).lower() in [
+                'false', '0', 'n', 'no']) if 'showlinks' in details else True
+            details['displaytitle'] = str(details['displaytitle']).lower() in [
+                'true', '1', 'y', 'yes', 'ok'] if 'displaytitle' in details else False
 
         return True
