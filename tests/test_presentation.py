@@ -2,6 +2,7 @@ from pyRevealjs import Slide, SlideCatalog, SlideGenerator, Presentation, Presen
 import unittest
 import tempfile
 import logging
+import sys
 
 
 class testPresentation(unittest.TestCase):
@@ -10,6 +11,16 @@ class testPresentation(unittest.TestCase):
     def setUpClass(cls):
         cls.temp_dir = tempfile.TemporaryDirectory()
         print('temp dir: ', cls.temp_dir.name)
+        root = logging.getLogger()
+        formatter = logging.Formatter(
+            '%(asctime)s - %(levelname)s - %(filename)s - %(lineno)d - %(message)s')
+        root.setLevel(logging.DEBUG)
+
+        # console
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setLevel(logging.DEBUG)
+        console_handler.setFormatter(formatter)
+        root.addHandler(console_handler)
 
     @classmethod
     def tearDownClass(cls):
